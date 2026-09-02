@@ -105,6 +105,39 @@
 
 ---
 
+## ✍️ 技术博客与分享
+
+持续在 CSDN 分享前端开发技术心得，码龄 3 年，累计发布 **12 篇原创**技术文章，总访问量 **9,059+**，粉丝 **96**，获 **136 次点赞**、**105 次收藏**。
+
+> CSDN 主页：[https://blog.csdn.net/qy_hell](https://blog.csdn.net/qy_hell)
+
+### 精选文章
+
+| 文章标题 | 分类 | 阅读量 | 点赞 | 链接 |
+|---|---|---|---|---|
+| CSS中的多列布局：两列、三列与多行多列布局全解析 | CSS布局 | 1610 | 4 | [阅读](https://blog.csdn.net/qy_hell/article/details/143373946) |
+| DOM操作全解析：让网页交互更灵动 | JavaScript | 980 | 21 | [阅读](https://blog.csdn.net/qy_hell/article/details/143496751) |
+| CSS选择器 | CSS基础 | 917 | 29 | [阅读](https://blog.csdn.net/qy_hell/article/details/142769483) |
+| JavaScript语法基础：深入探索函数、对象与常用类 | JavaScript | 861 | 13 | [阅读](https://blog.csdn.net/qy_hell/article/details/143464040) |
+| CSS浮动：布局的灵动魔法 | CSS布局 | 814 | 14 | [阅读](https://blog.csdn.net/qy_hell/article/details/143373420) |
+| CSS综合练习：打造学校官网静态网页 | CSS实战 | 672 | 5 | [阅读](https://blog.csdn.net/qy_hell/article/details/143374191) |
+
+### 全部文章目录
+
+**HTML 基础**
+- [构建网页的基本HTML标签](https://blog.csdn.net/qy_hell/article/details/142031087)（596阅读）
+- [HTML综合练习](https://blog.csdn.net/qy_hell/article/details/142768664)（510阅读）
+
+**CSS 基础与布局**
+- [CSS常用声明](https://blog.csdn.net/qy_hell/article/details/142770077)（529阅读）
+- [CSS的定位](https://blog.csdn.net/qy_hell/article/details/143373155)（380阅读）
+- [CSS浮动中的高度塌陷问题及解决方案](https://blog.csdn.net/qy_hell/article/details/143373627)（422阅读）
+
+**JavaScript 基础**
+- [JavaScript语法基础：构建编程世界的基石](https://blog.csdn.net/qy_hell/article/details/143374412)（666阅读）
+
+---
+
 ## 💼 项目经历
 
 ### 学校官网静态页面开发项目 | 前端开发组员
