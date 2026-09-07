@@ -102,15 +102,19 @@
 
 ## ⚙️ ComfyUI 工作流分享
 
-以下是我常用的工作流配置文件，可直接导入 ComfyUI 使用：
+以下是我搭建的 ComfyUI 工作流配置文件，可直接导入 ComfyUI 使用：
 
-| 工作流名称 | 适用场景 | 下载 |
-|---|---|---|
-| 电商商品图批量生成 | 电商主图、详情页图 | [workflow_ecommerce.json](（上传后替换为文件链接）) |
-| 角色一致性设计 | 插画、游戏角色 | [workflow_character.json](（上传后替换为文件链接）) |
-| 图生图风格迁移 | 照片转动漫、线稿上色 | [workflow_img2img.json](（上传后替换为文件链接）) |
+| 工作流名称 | 适用场景 | 核心技术 | 下载 |
+|---|---|---|---|
+| 电商商品图批量生成 | 电商主图、详情页图批量产出 | SDXL + 电商LoRA + batch4 + 2K放大 | [workflow_ecommerce.json](https://github.com/hyh11511/ai-portfolio/blob/main/workflow_ecommerce.json) |
+| 混元视频1.5文生视频 | AI视频生成、动态内容创作 | 混元视频1.5 + Qwen2.5-VL + GGUF量化 | [workflow_hunyuan_video_v2.json](https://github.com/hyh11511/ai-portfolio/blob/main/workflow_hunyuan_video_v2.json) |
+| 真人转动漫（基础版） | 照片转动漫风格、插画风格化 | SDXL + 韩漫古风LoRA + img2img | [workflow_photo_to_anime.json](https://github.com/hyh11511/ai-portfolio/blob/main/workflow_photo_to_anime.json) |
+| 真人转动漫（专业版） | 高质量真人转动漫，保持面部+姿势 | Animagine XL + ControlNet OpenPose + IP-Adapter Face | [workflow_photo_to_anime_pro.json](https://github.com/hyh11511/ai-portfolio/blob/main/workflow_photo_to_anime_pro.json) |
+| 图片转手办 | 照片转PVC手办/3D渲染风格 | SDXL + 3D渲染国潮LoRA + ControlNet + IP-Adapter | [workflow_photo_to_figure.json](https://github.com/hyh11511/ai-portfolio/blob/main/workflow_photo_to_figure.json) |
 
-> 导入方法：打开 ComfyUI → 拖拽 JSON 文件到工作区 → 自动加载节点配置
+> **导入方法**：打开 ComfyUI → 拖拽 JSON 文件到工作区 → 自动加载节点配置
+>
+> **模型依赖**：工作流需配合对应模型使用，包括 SDXL 基础模型、Animagine XL 3.1、ControlNet OpenPose XL、IP-Adapter Face SDXL、各风格 LoRA 等。
 
 ---
 
