@@ -72,18 +72,23 @@
 
 ---
 
-### 系列四：电商商品图批量生成（进行中）
+### 系列四：电商商品图批量生成
 
-> 基于 ComfyUI 搭建的电商商品图工作流，实现一键批量生成、换背景、风格统一。
+> 基于 ComfyUI + 电商产品摄影 LoRA 搭建的批量生成工作流，一次输出 4 张不同商品图，支持 2K 放大。涵盖数码产品、美妆香水、智能硬件等品类。
 
-| 原图 | AI 生成效果 1 | AI 生成效果 2 |
+| 平板电脑桌面场景 | 二合一笔记本 | 菱形切割香水 |
 |:---:|:---:|:---:|
-| （待补充） | （待补充） | （待补充） |
+| ![平板电脑](https://raw.githubusercontent.com/hyh11511/ai-portfolio/main/ecom_01_平板电脑桌面场景.jpg) | ![二合一笔记本](https://raw.githubusercontent.com/hyh11511/ai-portfolio/main/ecom_02_二合一笔记本.jpg) | ![菱形香水](https://raw.githubusercontent.com/hyh11511/ai-portfolio/main/ecom_03_菱形切割香水.jpg) |
+
+| 八边形香水 | 黑色音箱组合 | 白色智能音箱 |
+|:---:|:---:|:---:|
+| ![八边形香水](https://raw.githubusercontent.com/hyh11511/ai-portfolio/main/ecom_04_八边形香水.jpg) | ![黑色音箱](https://raw.githubusercontent.com/hyh11511/ai-portfolio/main/ecom_05_黑色音箱组合.jpg) | ![白色音箱](https://raw.githubusercontent.com/hyh11511/ai-portfolio/main/ecom_06_白色智能音箱.jpg) |
 
 **工作流要点：**
-- 使用 ControlNet 保持商品主体形态不变
-- 批量生成节点一次输出 10+ 张不同场景图
-- 提示词模板适配数码产品、食品、日用品等多品类
+- SDXL 基础模型 + 电商产品摄影 LoRA（强度 0.8），专业影棚布光效果
+- batch_size=4 一次生成 4 张不同商品图，效率提升 4 倍
+- 内置 2 倍 Lanczos 放大节点，输出 2048×2048 高清成品
+- 提示词模板适配数码产品、美妆、食品、家居等多品类
 
 ---
 
