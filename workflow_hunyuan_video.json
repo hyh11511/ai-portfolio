@@ -1,0 +1,229 @@
+{
+  "last_node_id": 10,
+  "last_link_id": 12,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "UnetLoaderGGUF",
+      "pos": [50, 50],
+      "size": [320, 100],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "outputs": [
+        {"name": "MODEL", "type": "MODEL", "links": [1], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "UnetLoaderGGUF"},
+      "widgets_values": ["hunyuanvideo1.5_480p_t2v-Q6_K.gguf"]
+    },
+    {
+      "id": 2,
+      "type": "CLIPLoader",
+      "pos": [50, 200],
+      "size": [320, 100],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "outputs": [
+        {"name": "CLIP", "type": "CLIP", "links": [2, 3], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "CLIPLoader"},
+      "widgets_values": ["gemma_3_12B_it_fp8_scaled.safetensors", "hunyuan_video"]
+    },
+    {
+      "id": 3,
+      "type": "VAELoader",
+      "pos": [50, 350],
+      "size": [320, 60],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "outputs": [
+        {"name": "VAE", "type": "VAE", "links": [4], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "VAELoader"},
+      "widgets_values": ["hunyuan_video_vae_bf16.safetensors"]
+    },
+    {
+      "id": 4,
+      "type": "CLIPTextEncode",
+      "pos": [420, 30],
+      "size": [400, 150],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {"name": "clip", "type": "CLIP", "link": 2}
+      ],
+      "outputs": [
+        {"name": "CONDITIONING", "type": "CONDITIONING", "links": [5], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "CLIPTextEncode"},
+      "widgets_values": [
+        "A beautiful woman walking in a cherry blossom garden, petals falling, soft sunlight, cinematic shot, slow motion, high quality, detailed, 4k"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "CLIPTextEncode",
+      "pos": [420, 220],
+      "size": [400, 120],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {"name": "clip", "type": "CLIP", "link": 3}
+      ],
+      "outputs": [
+        {"name": "CONDITIONING", "type": "CONDITIONING", "links": [6], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "CLIPTextEncode"},
+      "widgets_values": [
+        "low quality, blurry, distorted, ugly, deformed, watermark, text, logo, noisy, grainy, flickering, jittery, bad anatomy, extra limbs"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "EmptyHunyuanLatentVideo",
+      "pos": [420, 380],
+      "size": [320, 130],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "outputs": [
+        {"name": "LATENT", "type": "LATENT", "links": [7], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "EmptyHunyuanLatentVideo"},
+      "widgets_values": [848, 480, 33, 1]
+    },
+    {
+      "id": 7,
+      "type": "KSampler",
+      "pos": [880, 80],
+      "size": [320, 260],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {"name": "model", "type": "MODEL", "link": 1},
+        {"name": "positive", "type": "CONDITIONING", "link": 5},
+        {"name": "negative", "type": "CONDITIONING", "link": 6},
+        {"name": "latent_image", "type": "LATENT", "link": 7}
+      ],
+      "outputs": [
+        {"name": "LATENT", "type": "LATENT", "links": [8], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "KSampler"},
+      "widgets_values": [
+        42,
+        "randomize",
+        25,
+        6,
+        "euler",
+        "beta",
+        1
+      ]
+    },
+    {
+      "id": 8,
+      "type": "VAEDecode",
+      "pos": [1250, 120],
+      "size": [220, 50],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {"name": "samples", "type": "LATENT", "link": 8},
+        {"name": "vae", "type": "VAE", "link": 4}
+      ],
+      "outputs": [
+        {"name": "IMAGE", "type": "IMAGE", "links": [9, 10], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "VAEDecode"}
+    },
+    {
+      "id": 9,
+      "type": "SaveImage",
+      "pos": [1520, 50],
+      "size": [320, 280],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {"name": "images", "type": "IMAGE", "link": 9}
+      ],
+      "properties": {},
+      "widgets_values": ["hunyuan_video_frame"]
+    },
+    {
+      "id": 10,
+      "type": "VHS_VideoCombine",
+      "pos": [1520, 360],
+      "size": [320, 200],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {"name": "images", "type": "IMAGE", "link": 10}
+      ],
+      "properties": {"Node name for S&R": "VHS_VideoCombine"},
+      "widgets_values": [
+        16,
+        0,
+        "video/h264-mp4",
+        0,
+        "hunyuan_video_output",
+        true,
+        true
+      ]
+    }
+  ],
+  "links": [
+    [1, 1, 0, 7, 0, "MODEL"],
+    [2, 2, 0, 4, 0, "CLIP"],
+    [3, 2, 0, 5, 0, "CLIP"],
+    [4, 3, 0, 8, 1, "VAE"],
+    [5, 4, 0, 7, 1, "CONDITIONING"],
+    [6, 5, 0, 7, 2, "CONDITIONING"],
+    [7, 6, 0, 7, 3, "LATENT"],
+    [8, 7, 0, 8, 0, "LATENT"],
+    [9, 8, 0, 9, 0, "IMAGE"],
+    [10, 8, 0, 10, 0, "IMAGE"]
+  ],
+  "groups": [
+    {
+      "title": "模型加载（GGUF UNet + CLIP + VAE）",
+      "bounding": [30, 30, 360, 400],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "title": "提示词（可修改视频描述）",
+      "bounding": [400, 10, 440, 350],
+      "color": "#a1309b",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "title": "空潜空间视频（848x480, 33帧）",
+      "bounding": [400, 360, 360, 160],
+      "color": "#88a130",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "title": "采样与输出（帧序列+MP4视频）",
+      "bounding": [860, 60, 1000, 540],
+      "color": "#a16330",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {"scale": 0.8, "offset": [0, 0]},
+    "info": "混元视频1.5 文生视频工作流 | 480p | 33帧约1.3秒 | 输出MP4"
+  },
+  "version": 0.4
+}

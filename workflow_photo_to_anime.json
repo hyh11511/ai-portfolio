@@ -1,0 +1,260 @@
+{
+  "last_node_id": 11,
+  "last_link_id": 14,
+  "nodes": [
+    {
+      "id": 1,
+      "type": "CheckpointLoaderSimple",
+      "pos": [50, 50],
+      "size": [320, 100],
+      "flags": {},
+      "order": 0,
+      "mode": 0,
+      "outputs": [
+        {"name": "MODEL", "type": "MODEL", "links": [1], "slot_index": 0},
+        {"name": "CLIP", "type": "CLIP", "links": [2], "slot_index": 1},
+        {"name": "VAE", "type": "VAE", "links": [3], "slot_index": 2}
+      ],
+      "properties": {"Node name for S&R": "CheckpointLoaderSimple"},
+      "widgets_values": ["sd_xl_base_1.0.safetensors"]
+    },
+    {
+      "id": 2,
+      "type": "LoraLoader",
+      "pos": [50, 200],
+      "size": [320, 130],
+      "flags": {},
+      "order": 1,
+      "mode": 0,
+      "inputs": [
+        {"name": "model", "type": "MODEL", "link": 1},
+        {"name": "clip", "type": "CLIP", "link": 2}
+      ],
+      "outputs": [
+        {"name": "MODEL", "type": "MODEL", "links": [4], "slot_index": 0},
+        {"name": "CLIP", "type": "CLIP", "links": [5, 6], "slot_index": 1}
+      ],
+      "properties": {"Node name for S&R": "LoraLoader"},
+      "widgets_values": ["韩漫感_韩漫古风.safetensors", 0.75, 0.75]
+    },
+    {
+      "id": 3,
+      "type": "LoadImage",
+      "pos": [50, 380],
+      "size": [320, 320],
+      "flags": {},
+      "order": 2,
+      "mode": 0,
+      "outputs": [
+        {"name": "IMAGE", "type": "IMAGE", "links": [7], "slot_index": 0},
+        {"name": "MASK", "type": "MASK", "links": null, "slot_index": 1}
+      ],
+      "properties": {},
+      "widgets_values": ["example.png", "image"]
+    },
+    {
+      "id": 4,
+      "type": "CLIPTextEncode",
+      "pos": [420, 30],
+      "size": [400, 180],
+      "flags": {},
+      "order": 3,
+      "mode": 0,
+      "inputs": [
+        {"name": "clip", "type": "CLIP", "link": 5}
+      ],
+      "outputs": [
+        {"name": "CONDITIONING", "type": "CONDITIONING", "links": [8], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "CLIPTextEncode"},
+      "widgets_values": [
+        "masterpiece, best quality, ultra detailed, anime style, manga style, 2D, cel shading, anime coloring, korean manhwa style, webtoon style, 1girl, beautiful detailed eyes, detailed face, flowing hair, elegant, soft lighting, vibrant colors, clean lineart"
+      ]
+    },
+    {
+      "id": 5,
+      "type": "CLIPTextEncode",
+      "pos": [420, 250],
+      "size": [400, 150],
+      "flags": {},
+      "order": 4,
+      "mode": 0,
+      "inputs": [
+        {"name": "clip", "type": "CLIP", "link": 6}
+      ],
+      "outputs": [
+        {"name": "CONDITIONING", "type": "CONDITIONING", "links": [9], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "CLIPTextEncode"},
+      "widgets_values": [
+        "photorealistic, realistic, 3d, photo, photograph, camera, low quality, worst quality, blurry, noisy, grainy, watermark, text, signature, username, extra fingers, bad anatomy, deformed, ugly, fat, obese, mutated, disfigured"
+      ]
+    },
+    {
+      "id": 6,
+      "type": "VAEEncode",
+      "pos": [420, 450],
+      "size": [220, 50],
+      "flags": {},
+      "order": 5,
+      "mode": 0,
+      "inputs": [
+        {"name": "pixels", "type": "IMAGE", "link": 7},
+        {"name": "vae", "type": "VAE", "link": 3}
+      ],
+      "outputs": [
+        {"name": "LATENT", "type": "LATENT", "links": [10], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "VAEEncode"}
+    },
+    {
+      "id": 7,
+      "type": "KSampler",
+      "pos": [880, 80],
+      "size": [320, 280],
+      "flags": {},
+      "order": 6,
+      "mode": 0,
+      "inputs": [
+        {"name": "model", "type": "MODEL", "link": 4},
+        {"name": "positive", "type": "CONDITIONING", "link": 8},
+        {"name": "negative", "type": "CONDITIONING", "link": 9},
+        {"name": "latent_image", "type": "LATENT", "link": 10}
+      ],
+      "outputs": [
+        {"name": "LATENT", "type": "LATENT", "links": [11], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "KSampler"},
+      "widgets_values": [
+        42,
+        "randomize",
+        30,
+        6,
+        "dpmpp_2m",
+        "karras",
+        0.6
+      ]
+    },
+    {
+      "id": 8,
+      "type": "VAEDecode",
+      "pos": [1250, 120],
+      "size": [220, 50],
+      "flags": {},
+      "order": 7,
+      "mode": 0,
+      "inputs": [
+        {"name": "samples", "type": "LATENT", "link": 11},
+        {"name": "vae", "type": "VAE", "link": 3}
+      ],
+      "outputs": [
+        {"name": "IMAGE", "type": "IMAGE", "links": [12, 13], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "VAEDecode"}
+    },
+    {
+      "id": 9,
+      "type": "SaveImage",
+      "pos": [1520, 50],
+      "size": [320, 280],
+      "flags": {},
+      "order": 8,
+      "mode": 0,
+      "inputs": [
+        {"name": "images", "type": "IMAGE", "link": 12}
+      ],
+      "properties": {},
+      "widgets_values": ["anime_output"]
+    },
+    {
+      "id": 10,
+      "type": "ImageScaleBy",
+      "pos": [1520, 360],
+      "size": [280, 100],
+      "flags": {},
+      "order": 9,
+      "mode": 0,
+      "inputs": [
+        {"name": "image", "type": "IMAGE", "link": 13}
+      ],
+      "outputs": [
+        {"name": "IMAGE", "type": "IMAGE", "links": [14], "slot_index": 0}
+      ],
+      "properties": {"Node name for S&R": "ImageScaleBy"},
+      "widgets_values": ["lanczos", 2]
+    },
+    {
+      "id": 11,
+      "type": "SaveImage",
+      "pos": [1850, 360],
+      "size": [320, 280],
+      "flags": {},
+      "order": 10,
+      "mode": 0,
+      "inputs": [
+        {"name": "images", "type": "IMAGE", "link": 14}
+      ],
+      "properties": {},
+      "widgets_values": ["anime_output_2x"]
+    }
+  ],
+  "links": [
+    [1, 1, 0, 2, 0, "MODEL"],
+    [2, 1, 1, 2, 1, "CLIP"],
+    [3, 1, 2, 6, 1, "VAE"],
+    [4, 2, 0, 7, 0, "MODEL"],
+    [5, 2, 1, 4, 0, "CLIP"],
+    [6, 2, 1, 5, 0, "CLIP"],
+    [7, 3, 0, 6, 0, "IMAGE"],
+    [8, 4, 0, 7, 1, "CONDITIONING"],
+    [9, 5, 0, 7, 2, "CONDITIONING"],
+    [10, 6, 0, 7, 3, "LATENT"],
+    [11, 7, 0, 8, 0, "LATENT"],
+    [12, 8, 0, 9, 0, "IMAGE"],
+    [13, 8, 0, 10, 0, "IMAGE"],
+    [14, 10, 0, 11, 0, "IMAGE"]
+  ],
+  "groups": [
+    {
+      "title": "模型加载（SDXL + 韩漫LoRA）",
+      "bounding": [30, 30, 360, 320],
+      "color": "#3f789e",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "title": "输入图片（上传真人照片）",
+      "bounding": [30, 370, 360, 340],
+      "color": "#88a130",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "title": "提示词（正向动漫风格 + 负向排除真人）",
+      "bounding": [400, 10, 440, 400],
+      "color": "#a1309b",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "title": "图生图采样（denoise=0.6，可调）",
+      "bounding": [860, 60, 360, 320],
+      "color": "#a16330",
+      "font_size": 24,
+      "flags": {}
+    },
+    {
+      "title": "输出（原图 + 2倍放大）",
+      "bounding": [1230, 40, 960, 620],
+      "color": "#30a15c",
+      "font_size": 24,
+      "flags": {}
+    }
+  ],
+  "config": {},
+  "extra": {
+    "ds": {"scale": 0.7, "offset": [0, 0]},
+    "info": "真人转动漫图生图工作流 | SDXL + 韩漫古风LoRA | img2img denoise=0.6 | 含2倍放大"
+  },
+  "version": 0.4
+}
